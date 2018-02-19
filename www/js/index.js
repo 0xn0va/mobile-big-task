@@ -22,6 +22,7 @@ var app = {
 	},
 
   onDeviceReady: function() {
+		//Main Initialization
 		var addr = document.getElementById('addr');
 		addr.addEventListener('keypress', userAddr);
 		
@@ -33,9 +34,7 @@ var app = {
   }
 };
 
-var map = null;
-var geocoder = null;
-
+// Init google map callback
 function showMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: { lat: 65.0120888, lng: 25.46507719996 },
@@ -51,6 +50,7 @@ function addMarkerToMap(position, map) {
   });
 }
 
+// User address search with Marker
 function userAddr() {
     getLatLong();
 }
@@ -64,6 +64,7 @@ function getAddrCoord(address) {
   });
 }
 
+// User location from GPS
 function getUserCoord() {
   return new Promise(function(resolve, reject) {
 		navigator.geolocation.getCurrentPosition(resolve, reject);
