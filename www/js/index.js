@@ -22,9 +22,11 @@ var app = {
 	},
 
   onDeviceReady: function() {
-		//Main Initialization
-		var addr = document.getElementById('addr');
-		addr.addEventListener('keypress', userAddr);
+		//Main Initialization		
+		// var addr1 = document.getElementById('addr1');
+		// var addr2 = document.getElementById('addr2');
+		// var btnDistance = document.getElementById('btnDistance');
+		// btnDistance.addEventListener('click', calcDist);
 		
     var btnCoord = document.getElementById('btnCoord');
 		btnCoord.addEventListener('click', fetchUserAddr);
@@ -48,11 +50,6 @@ function addMarkerToMap(position, map) {
     position: position,
     map: map
   });
-}
-
-// User address search with Marker
-function userAddr() {
-    getLatLong();
 }
 
 function getAddrCoord(address) {
@@ -89,9 +86,10 @@ function fetchUserLocation() {
 }
 
 function fetchUserAddr() {
-  var outputEl = document.getElementById('coordInfo');
   var addr = document.getElementById('addr');
   var address = addr.value;
+	var coordInfo = document.getElementById('coordInfo');
+
 	
   getAddrCoord(address).then(function(results) {
       addr.value = results[0].formatted_address;
@@ -101,11 +99,15 @@ function fetchUserAddr() {
         lng: location.lng(),
       };
 			
-      outputEl.innerHTML =
+      coordInfo.innerHTML =
         'Lat: ' + coordsInfo.lat + ', Long: ' + coordsInfo.lng;
       	addMarkerToMap(coordsInfo, map);
       	map.setCenter(coordsInfo);
     })
-    .catch(function(err) {outputEl.innerHTML = err;});
+    .catch(function(err) {coordInfo.innerHTML = err;});
 }
+
+// function calcDist(addr1, addr2) {
+// 
+// }
 app.initialize();
