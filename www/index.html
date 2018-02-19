@@ -49,10 +49,16 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 		<button id="yourCoord">Pin Point me!</button>
 		<div id="userInfo"></div>
 		
-		<h3>Calculate distance</h3>
-		<button id="btnDistance">distance</button>
-		<div id="distKm"></div>
-
+		<h3>Calculate distance and Navigate</h3>
+		<button id="btnDistance">GO!</button>
+		<br />
+		Distance: <div id="distKm"></div>
+		<br />
+		Travel Time: <div id="showTime"></div>
+		<br />
+		<h3>Navigation Instruction</h3>
+		<div id="showRoute"></div>
+		
 		<script type="text/javascript" src="cordova.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEJApn1weBvRmXgpTTvhkpbPrfUiXPkM8&callback=showMap&libraries=geometry"
@@ -66,5 +72,6 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 	https://github.com/mapsplugin/v2.0-demo
 	https://stackoverflow.com/questions/10211187/distance-between-two-locations-google-maps
 	https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
+	https://stackoverflow.com/questions/13658523/output-json-arrays-with-javascript
 -->
 </html>

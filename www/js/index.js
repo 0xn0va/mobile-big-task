@@ -40,8 +40,8 @@ var pointB = null;
 // Init google map callback
 function showMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
-		center: { lat: 65.0120888, lng: 25.46507719996 },
-		zoom: 13
+		center: { lat: 65.012, lng: 25.465 },
+		zoom: 10
 	});
 	geocoder = new google.maps.Geocoder();
 }
@@ -49,7 +49,7 @@ function showMap() {
 function addMarkerToMap(position, map) {
 	var marker = new google.maps.Marker({
 		position: position,
-		map: map
+		map : map
 	});
 }
 
@@ -102,11 +102,11 @@ function fetchUserAddr() {
 			lng: location.lng(),
 		};
 		
-	 	pointB = new google.maps.LatLng(
-		coordsInfo.lat,
-		coordsInfo.lng
-	);
-	
+		pointB = new google.maps.LatLng(
+			coordsInfo.lat,
+			coordsInfo.lng
+		);
+		
 		coordInfo.innerHTML =
 		'Lat: ' + coordsInfo.lat + ', Long: ' + coordsInfo.lng;
 		addMarkerToMap(coordsInfo, map);
@@ -117,9 +117,45 @@ function fetchUserAddr() {
 
 function calcDist() {
 	var distKm = document.getElementById('distKm');
+	var showTime = document.getElementById('showTime');
+	var showRoute = document.getElementById('showRoute');
+
 	var dist = google.maps.geometry.spherical.computeDistanceBetween(pointA,pointB);
 	distance = (dist/1000).toFixed(2) + 'km';
 	distKm.innerHTML = distance;
+		
+	var directionsService = new google.maps.DirectionsService();
+	directionsService.route(
+		{
+			origin: pointA,
+			destination: pointB,
+			travelMode: google.maps.DirectionsTravelMode.DRIVING,
+			unitSystem: google.maps.UnitSystem.METRIC
+		},
+		function(response, status) {
+			if (status === google.maps.DirectionsStatus.OK) {
+				timeofTravel = response.routes[0].legs[0].duration.text;
+				stepsofTravel = response.routes[0].legs[0].steps.map(function(step) {
+					return {
+						distance: step.distance.text,
+						duration: step.duration.text,
+						instructions: step.instructions
+					};});		
+							
+				var directionsRenderer = new google.maps.DirectionsRenderer({map: map, directions: response });
+				showTime.innerHTML = timeofTravel;
+				
+				var routeList = [];
+				for (var i = 0; i < stepsofTravel.length; i++) {
+						routeList.push(stepsofTravel[i].instructions);
+						routeList.push('<br />')
+				}
+				showRoute.innerHTML = routeList;
+			} else {
+					console.log('Ouch');
+			}
+		}
+	);
 }
 
 app.initialize();
