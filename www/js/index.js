@@ -17,30 +17,94 @@
  * under the License.
  */
 var app = {
-    // Application Constructor
-    initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-    },
+	initialize: function() {
+		document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+	},
 
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
-    },
+  onDeviceReady: function() {
+		var addr = document.getElementById('addr');
+		addr.addEventListener('keypress', userAddr);
+		
+    var btnCoord = document.getElementById('btnCoord');
+		btnCoord.addEventListener('click', fetchUserAddr);
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
+    var yourCoord = document.getElementById('yourCoord');
+		yourCoord.addEventListener('click',fetchUserLocation);
+  }
 };
 
+var map = null;
+var geocoder = null;
+
+function showMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 65.0120888, lng: 25.46507719996 },
+    zoom: 13
+  });
+  geocoder = new google.maps.Geocoder();
+}
+
+function addMarkerToMap(position, map) {
+  var marker = new google.maps.Marker({
+    position: position,
+    map: map
+  });
+}
+
+function userAddr() {
+    getLatLong();
+}
+
+function getAddrCoord(address) {
+  return new Promise(function(resolve, reject) {
+    geocoder.geocode({ address: address }, function(results, status) {
+      if (status == 'OK') {resolve(results);}
+			reject('Ouch, cant fetch the address coordinations');
+    });
+  });
+}
+
+function getUserCoord() {
+  return new Promise(function(resolve, reject) {
+		navigator.geolocation.getCurrentPosition(resolve, reject);
+	});
+}
+
+function fetchUserLocation() {
+  var userInfo = document.getElementById('userInfo');
+  userInfo.innerHTML = 'Fetching your coordinations from google map!';
+	
+  getUserCoord().then(function(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+      var coordsInfo = {lat: lat, lng: lng};
+			
+      addMarkerToMap(coordsInfo, map);
+      map.setCenter(coordsInfo);
+      userInfo.innerHTML = 'Your Coordinations are: ' + lat + '°N, ' + lng + '°E';
+    }).catch(function(err) {
+      userInfo.innerHTML = 'Ouch, cant fetch your coordinations: ' + err.message;
+    });
+}
+
+function fetchUserAddr() {
+  var outputEl = document.getElementById('coordInfo');
+  var addr = document.getElementById('addr');
+  var address = addr.value;
+	
+  getAddrCoord(address).then(function(results) {
+      addr.value = results[0].formatted_address;
+      var location = results[0].geometry.location;
+      var coordsInfo = {
+        lat: location.lat(),
+        lng: location.lng(),
+      };
+			
+      outputEl.innerHTML =
+        'Lat: ' + coordsInfo.lat + ', Long: ' + coordsInfo.lng;
+      	addMarkerToMap(coordsInfo, map);
+      	map.setCenter(coordsInfo);
+    })
+    .catch(function(err) {outputEl.innerHTML = err;});
+}
 app.initialize();
