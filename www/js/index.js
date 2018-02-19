@@ -34,6 +34,9 @@ var app = {
 		
 		var btnUserIntel = document.getElementById('btnUserIntel');
 		btnUserIntel.addEventListener('click', sendIntel);
+		
+		var btnFetchIntel = document.getElementById('btnFetchIntel');
+		btnFetchIntel.addEventListener('click', fetchIntel);
 	}
 };
 var config = {
@@ -178,11 +181,23 @@ function calcDist() {
 function sendIntel() {
 	var userIntel = document.getElementById('userIntel').value;
 	
-  var hey = firebase.database().ref('/intel').push({
+  firebase.database().ref('/intel').push({
     lat: userLat,
     lng: userLng,
     userIntel : userIntel
   });
+}
+
+function fetchIntel() {
+	var showIntel = document.getElementById('showIntel');
+	
+	var intelData = database.ref('/intel');
+	intelData.on('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+    });
+		console.log(childData);
+	});
 }
 
 app.initialize();
