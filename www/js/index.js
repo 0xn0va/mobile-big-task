@@ -31,11 +31,26 @@ var app = {
 		
 		var btnDistance = document.getElementById('btnDistance');
 		btnDistance.addEventListener('click', calcDist);
+		
+		var btnUserIntel = document.getElementById('btnUserIntel');
+		btnUserIntel.addEventListener('click', sendIntel);
 	}
 };
+var config = {
+	apiKey: "AIzaSyDCMXtQ7wnVwYRugTLZl_V4jwhVkR47GZU",
+	authDomain: "mobile-course-bi-1519048093039.firebaseapp.com",
+	databaseURL: "https://mobile-course-bi-1519048093039.firebaseio.com",
+	projectId: "mobile-course-bi-1519048093039",
+	storageBucket: "mobile-course-bi-1519048093039.appspot.com",
+	messagingSenderId: "99726208798"
+};
+firebase.initializeApp(config);
+var database = firebase.database();
 
 var pointA = null;
 var pointB = null;
+var userLat = null;
+var userLng = null;
 
 // Init google map callback
 function showMap() {
@@ -79,6 +94,8 @@ function fetchUserLocation() {
 		var coordsInfo = {lat: lat, lng: lng};
 		
 		pointA = new google.maps.LatLng(lat,lng);
+		userLat = lat;
+		userLng = lng;
 		
 		addMarkerToMap(coordsInfo, map);
 		map.setCenter(coordsInfo);
@@ -156,6 +173,16 @@ function calcDist() {
 			}
 		}
 	);
+}
+
+function sendIntel() {
+	var userIntel = document.getElementById('userIntel').value;
+	
+  var hey = firebase.database().ref('/intel').push({
+    lat: userLat,
+    lng: userLng,
+    userIntel : userIntel
+  });
 }
 
 app.initialize();

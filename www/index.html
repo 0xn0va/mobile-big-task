@@ -38,40 +38,50 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 <title>Mobile Big Exercise - Abdo</title>
 </head>
 <body>
-		<div id="map"></div>
-				
-		<h3 for="addr">Locate Address</h3>
-		<input id="addr" type="text">
-		<button id="btnCoord">Find</button>
-		<div id="coordInfo"></div>
-
-		<h3>Where are you?</h3>
-		<button id="yourCoord">Pin Point me!</button>
-		<div id="userInfo"></div>
-		
-		<h3>Calculate distance and Navigate</h3>
-		<button id="btnDistance">GO!</button>
+	<div id="map"></div>
+	
+	<h3 for="addr">Locate Address</h3>
+	<input id="addr" type="text">
+	<button id="btnCoord">Find</button>
+	<div id="coordInfo"></div>
+	
+	<h3>Where are you?</h3>
+	<button id="yourCoord">Pin Point me!</button>
+	<div id="userInfo"></div>
+	<br />
+	
+	<div>
+		<textarea id="userIntel" placeholder="Add information about your location"></textarea>
 		<br />
-		Distance: <div id="distKm"></div>
-		<br />
-		Travel Time: <div id="showTime"></div>
-		<br />
-		<h3>Navigation Instruction</h3>
-		<div id="showRoute"></div>
-		
-		<script type="text/javascript" src="cordova.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEJApn1weBvRmXgpTTvhkpbPrfUiXPkM8&callback=showMap&libraries=geometry"
-		async defer></script>
-	</body>
-	<!-- resources 
-	https://developers.google.com/maps/documentation/javascript/
-	https://github.com/apache/cordova-plugin-geolocation
-	https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/
-	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-	https://github.com/mapsplugin/v2.0-demo
-	https://stackoverflow.com/questions/10211187/distance-between-two-locations-google-maps
-	https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
-	https://stackoverflow.com/questions/13658523/output-json-arrays-with-javascript
+		<button id="btnUserIntel">Send</button>
+	</div>
+	<br />
+	
+	<h3>Calculate distance and Navigate</h3>
+	<button id="btnDistance">GO!</button>
+	<br />
+	Distance: <div id="distKm"></div>
+	<br />
+	Travel Time: <div id="showTime"></div>
+	<br />
+	<h3>Navigation Instruction</h3>
+	<div id="showRoute"></div>
+	
+	
+<script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEJApn1weBvRmXgpTTvhkpbPrfUiXPkM8&callback=showMap&libraries=geometry"
+async defer></script>
+</body>
+<!-- resources 
+https://developers.google.com/maps/documentation/javascript/
+https://github.com/apache/cordova-plugin-geolocation
+https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+https://github.com/mapsplugin/v2.0-demo
+https://stackoverflow.com/questions/10211187/distance-between-two-locations-google-maps
+https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
+https://stackoverflow.com/questions/13658523/output-json-arrays-with-javascript
 -->
 </html>
