@@ -54,13 +54,21 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 		<textarea id="userIntel" placeholder="Add information about your location"></textarea>
 		<br />
 		<button id="btnUserIntel">Send</button>
+		<br />
+		<div id="intelSentStat"></div>
 	</div>
 	<br />
 	
 	<div>
 		<button id="btnFetchIntel">Fetch</button>
 		<br />
-		<div id="showIntel"></div>
+		<table style="width:100%" id="showIntel">
+			<tr>
+				<th>User Intel:</th>
+				<th>Latitude:</th> 
+				<th>Longitude:</th>
+			</tr>
+		</table> 
 	</div>
 	
 	<h3>Calculate distance and Navigate</h3>
@@ -74,11 +82,11 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 	<div id="showRoute"></div>
 	
 	
-<script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
-<script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEJApn1weBvRmXgpTTvhkpbPrfUiXPkM8&callback=showMap&libraries=geometry"
-async defer></script>
+	<script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEJApn1weBvRmXgpTTvhkpbPrfUiXPkM8&callback=showMap&libraries=geometry"
+	async defer></script>
 </body>
 <!-- resources 
 https://developers.google.com/maps/documentation/javascript/
@@ -89,5 +97,6 @@ https://github.com/mapsplugin/v2.0-demo
 https://stackoverflow.com/questions/10211187/distance-between-two-locations-google-maps
 https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
 https://stackoverflow.com/questions/13658523/output-json-arrays-with-javascript
+https://firebase.google.com/docs/web/setup
 -->
 </html>

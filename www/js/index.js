@@ -139,11 +139,11 @@ function calcDist() {
 	var distKm = document.getElementById('distKm');
 	var showTime = document.getElementById('showTime');
 	var showRoute = document.getElementById('showRoute');
-
+	
 	var dist = google.maps.geometry.spherical.computeDistanceBetween(pointA,pointB);
 	distance = (dist/1000).toFixed(2) + 'km';
 	distKm.innerHTML = distance;
-		
+	
 	var directionsService = new google.maps.DirectionsService();
 	directionsService.route(
 		{
@@ -152,51 +152,68 @@ function calcDist() {
 			travelMode: google.maps.DirectionsTravelMode.DRIVING,
 			unitSystem: google.maps.UnitSystem.METRIC
 		},
-		function(response, status) {
-			if (status === google.maps.DirectionsStatus.OK) {
-				timeofTravel = response.routes[0].legs[0].duration.text;
-				stepsofTravel = response.routes[0].legs[0].steps.map(function(step) {
-					return {
-						distance: step.distance.text,
-						duration: step.duration.text,
-						instructions: step.instructions
-					};});		
-							
+	function(response, status) {
+		if (status === google.maps.DirectionsStatus.OK) {
+			timeofTravel = response.routes[0].legs[0].duration.text;
+			stepsofTravel = response.routes[0].legs[0].steps.map(function(step) {
+				return {
+					distance: step.distance.text,
+					duration: step.duration.text,
+					instructions: step.instructions
+				};});		
+				
 				var directionsRenderer = new google.maps.DirectionsRenderer({map: map, directions: response });
 				showTime.innerHTML = timeofTravel;
 				
 				var routeList = [];
 				for (var i = 0; i < stepsofTravel.length; i++) {
-						routeList.push(stepsofTravel[i].instructions);
-						routeList.push('<br />')
+					routeList.push(stepsofTravel[i].instructions);
+					routeList.push('<br />')
 				}
 				showRoute.innerHTML = routeList;
 			} else {
-					console.log('Ouch');
+				console.log('Ouch');
 			}
 		}
 	);
 }
-
+	
 function sendIntel() {
 	var userIntel = document.getElementById('userIntel').value;
+	var intelSentStat = document.getElementById('intelSentStat');
 	
-  firebase.database().ref('/intel').push({
-    lat: userLat,
-    lng: userLng,
-    userIntel : userIntel
-  });
+	firebase.database().ref('/intel').push({
+		lat: userLat,
+		lng: userLng,
+		userIntel : userIntel
+	}).then(function(){
+		intelSentStat.innerHTML = 'Thanks for helping to update our databse';
+	}).catch(function(err) {
+		intelSentStat.innerHTML = 'We had problem updating database: ' + err.message;
+	});
 }
 
 function fetchIntel() {
 	var showIntel = document.getElementById('showIntel');
 	
-	var intelData = database.ref('/intel');
-	intelData.on('value', function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-    });
-		console.log(childData);
+	database.ref('/intel').once('value', function(snapshot){
+		if(snapshot.exists()){
+			var content = '';
+			content += '<tr>';
+			content += '<th>User Intel:</th>';
+			content +=  '<th>Latitude:</th> ';
+			content +=  '<th>Longitude:</th>';
+			content +=	'</tr>';
+			snapshot.forEach(function(data){
+				var val = data.val();
+				content +='<tr>';
+				content += '<td>' + val.userIntel + '</td>';
+				content += '<td>' + val.lat + '</td>';
+				content += '<td>' + val.lng + '</td>';
+				content += '</tr>';
+			});
+			showIntel.innerHTML = content;
+		}
 	});
 }
 
