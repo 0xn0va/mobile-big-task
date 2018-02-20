@@ -28,7 +28,6 @@ under the License.
 	* Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
 	* Enable inline JS: add 'unsafe-inline' to default-src
 -->
-<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
 <meta http-equiv="Content-Security-Policy"
 content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self'">
 <meta name="format-detection" content="telephone=no">
@@ -40,27 +39,29 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 <body>
 	<div id="map"></div>
 	
-	<h3 for="addr">Locate Address</h3>
+	<h3>Locate Address</h3>
 	<input id="addr" type="text">
-	<button id="btnCoord">Find</button>
+	<button class="btn" id="btnCoord" type="button"><span>Find</span></button>
 	<div id="coordInfo"></div>
 	
 	<h3>Where are you?</h3>
-	<button id="yourCoord">Pin Point me!</button>
+	<button class="btn" id="yourCoord" type="button"><span>Pin Point Me!</span></button>
 	<div id="userInfo"></div>
 	<br />
 	
+	<h3>Add Info to database</h3>
 	<div>
 		<textarea id="userIntel" placeholder="Add information about your location"></textarea>
 		<br />
-		<button id="btnUserIntel">Send</button>
+		<button class="btn" id="btnUserIntel" type="button"><span>Send</span></button>
 		<br />
 		<div id="intelSentStat"></div>
 	</div>
 	<br />
 	
+	<h3>List all info from database</h3
 	<div>
-		<button id="btnFetchIntel">Fetch</button>
+		<button class="btn" id="btnFetchIntel" type="button"><span>Fetch</span></button>
 		<br />
 		<table style="width:100%" id="showIntel">
 			<tr>
@@ -72,7 +73,7 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 	</div>
 	
 	<h3>Calculate distance and Navigate</h3>
-	<button id="btnDistance">GO!</button>
+	<button class="btn" id="btnDistance" type="button"><span>Go!</span></button>
 	<br />
 	Distance: <div id="distKm"></div>
 	<br />
@@ -98,5 +99,9 @@ https://stackoverflow.com/questions/10211187/distance-between-two-locations-goog
 https://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
 https://stackoverflow.com/questions/13658523/output-json-arrays-with-javascript
 https://firebase.google.com/docs/web/setup
+https://codepen.io/sebj54/pen/oxluI
+https://fonts.google.com/specimen/Lato?selection.family=Lato
+https://material.io/guidelines/style/color.html#color-color-palette
+https://codepen.io/lehollandaisvolant/pen/aNQNjx
 -->
 </html>
