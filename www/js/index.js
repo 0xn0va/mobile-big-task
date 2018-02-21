@@ -196,6 +196,9 @@ function sendIntel() {
 function fetchIntel() {
 	var showIntel = document.getElementById('showIntel');
 	
+	var infowindow = new google.maps.InfoWindow;
+	 var marker, i;
+	
 	database.ref('/intel').once('value', function(snapshot){
 		if(snapshot.exists()){
 			var content = '';
@@ -212,38 +215,25 @@ function fetchIntel() {
 				content += '<td>' + val.lng + '</td>';
 				content += '</tr>';
 			});
+			
+			snapshot.forEach(function(data){
+				var val = data.val();
+				marker = new google.maps.Marker({
+						 position: new google.maps.LatLng(val.lat, val.lng),
+						 map: map
+				});
+				google.maps.event.addListener(marker, 'click', (function(marker, i) {
+						 return function() {
+								 infowindow.setContent(val.userIntel);
+								 infowindow.open(map, marker);
+						 }
+				})(marker, i));
+			});
+			
 			showIntel.innerHTML = content;
+	
 		}
 	});
-	snapshot.forEach(function(data){
-	var val = data.val();
-	locations.push([
-		val.userIntel,
-		val.lat,
-		val.lng
-	]);
-});
-
-showIntel.innerHTML = content;
-
-}
-});
-var infowindow = new google.maps.InfoWindow;
-var marker, i;
-
-for (i = 0; i < locations.length; i++) { 
-marker = new google.maps.Marker({
- position: new google.maps.LatLng(locations[i][1], locations[i][2]),
- map: map
-});
-
-google.maps.event.addListener(marker, 'click', (function(marker, i) {
- return function() {
-		 infowindow.setContent(locations[i][0]);
-		 infowindow.open(map, marker);
- }
-})(marker, i));
-}
 }
 
 app.initialize();
