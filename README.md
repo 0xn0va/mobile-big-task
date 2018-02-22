@@ -4,7 +4,7 @@
 - Find Address 
 - Add info to database (Fireabase)
 - Fetch info from database 
-- Navigate and Driving instruction 
+- Calculating distance, Navigate and Driving instruction 
 
 ### iOS screen shot
 
